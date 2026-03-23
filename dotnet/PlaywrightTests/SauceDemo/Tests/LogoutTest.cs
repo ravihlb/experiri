@@ -17,11 +17,6 @@ public class LogoutTests : PageTest
     await authPage.LoginAsync(UserCredentials.username, UserCredentials.password);
   }
 
-  override public async Task DisposeAsync()
-  {
-    await base.DisposeAsync();
-  }
-
   [Fact]
   public async Task Positive_Logout()
   {

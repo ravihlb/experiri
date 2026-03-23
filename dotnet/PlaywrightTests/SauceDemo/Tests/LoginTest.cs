@@ -15,11 +15,6 @@ public class LoginTests : PageTest
     authPage = new AuthPage(Page);
   }
 
-  override public async Task DisposeAsync()
-  {
-    await base.DisposeAsync();
-  }
-
   [Fact]
   public async Task Positive_AcceptedUserNameLogin()
   {
