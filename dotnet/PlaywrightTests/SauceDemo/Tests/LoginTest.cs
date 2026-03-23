@@ -3,7 +3,7 @@ using Microsoft.Playwright.Xunit;
 
 namespace PlaywrightTests;
 
-public class AuthenticatePageTests : PageTest
+public class LoginTests : PageTest
 {
 
   const string password = "secret_sauce";
@@ -15,7 +15,7 @@ public class AuthenticatePageTests : PageTest
     authPage = new AuthPage(Page);
   }
 
-  public override async Task DisposeAsync()
+  override public async Task DisposeAsync()
   {
     await base.DisposeAsync();
   }
