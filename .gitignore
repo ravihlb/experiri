@@ -1,0 +1,11 @@
+
+# Playwright
+node/node_modules/
+node/test-results/
+node/playwright-report/
+node/blob-report/
+node/playwright/.cache/
+node/playwright/.auth/
+
+dotnet/PlaywrightTests/bin
+dotnet/PlaywrightTests/obj
