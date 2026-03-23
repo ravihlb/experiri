@@ -1,32 +1,42 @@
-using System.Threading.Tasks;
 using Microsoft.Playwright;
 
 public class AuthPage
 {
     public string url = "https://www.saucedemo.com/";
     private readonly IPage _page;
-    private readonly Dictionary<string, ILocator> elements;
+    public readonly AuthPageElements Elements;
+
+    public class AuthPageElements
+    {
+        public ILocator usernameInput { get; init; }
+        public ILocator passwordInput { get; init; }
+        public ILocator loginButton { get; init; }
+        public ILocator errorMessage { get; init; }
+
+        public AuthPageElements(IPage page)
+        {
+            usernameInput = page.GetByPlaceholder("Username");
+            passwordInput = page.GetByPlaceholder("Password");
+            loginButton = page.GetByRole(AriaRole.Button, new() { Name = "Login" });
+            errorMessage = page.Locator("[data-test='error']");
+        }
+    }
 
     public AuthPage(IPage page)
     {
-        this._page = page;
-
-        this.elements = new Dictionary<string, ILocator>() {
-            { "usernameInput", this._page.GetByPlaceholder("Username") },
-            { "passwordInput", this._page.GetByPlaceholder("Password") },
-            { "loginButton", this._page.GetByRole(AriaRole.Button, new() { Name = "Login" }) },
-        };
+        _page = page;
+        Elements = new AuthPageElements(_page);
     }
 
     public async Task LoginAsync(string username, string password)
     {
-        await this.elements["usernameInput"].FillAsync(username);
-        await this.elements["passwordInput"].FillAsync(password);
-        await this.elements["loginButton"].ClickAsync();
+        await Elements.usernameInput.FillAsync(username);
+        await Elements.passwordInput.FillAsync(password);
+        await Elements.loginButton.ClickAsync();
     }
 
     public async Task GotoAsync()
     {
-        await this._page.GotoAsync(this.url);
+        await _page.GotoAsync(url);
     }
 }
