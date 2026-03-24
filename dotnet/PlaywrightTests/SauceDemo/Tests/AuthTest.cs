@@ -19,7 +19,7 @@ public class LoginTests : PageTest
   public async Task Positive_AcceptedUserNameLogin()
   {
     // Arrange
-    const string username = "standard_user";
+    (string username, string password) = UserCredentials.Default();
 
     // Act
     await authPage.GotoAsync();
@@ -38,7 +38,7 @@ public class LoginTests : PageTest
     await authPage.GotoAsync();
     await authPage.LoginAsync(username, wrongPassword);
 
-    await Expect(authPage.Elements.errorMessage).ToBeVisibleAsync();
+    await Expect(authPage.Elements.ErrorMessage).ToBeVisibleAsync();
     await Expect(Page).Not.ToHaveURLAsync(new Regex(".*/inventory"));
   }
 
@@ -50,7 +50,19 @@ public class LoginTests : PageTest
     await authPage.GotoAsync();
     await authPage.LoginAsync(username, password);
 
-    await Expect(authPage.Elements.errorMessage).ToBeVisibleAsync();
+    await Expect(authPage.Elements.ErrorMessage).ToBeVisibleAsync();
     await Expect(Page).Not.ToHaveURLAsync(new Regex(".*/inventory"));
+  }
+
+  [Fact]
+  public async Task Positive_Logout()
+  {
+    InventoryPage inventoryPage = new InventoryPage(Page);
+
+    await authPage.GotoAsync();
+    await authPage.LoginAsync(UserCredentials.Username, UserCredentials.Password);
+
+    await inventoryPage.Logout();
+    await Expect(Page).Not.ToHaveURLAsync(inventoryPage.Url);
   }
 }
