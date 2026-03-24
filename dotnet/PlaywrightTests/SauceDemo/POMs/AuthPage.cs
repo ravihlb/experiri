@@ -25,7 +25,7 @@ public class AuthPage
         );
     }
 
-    public async Task LoginAsync(string username, string password)
+    public async Task LoginAsync(string username = UserCredentials.Username, string password = UserCredentials.Password)
     {
         await Elements.UsernameInput.FillAsync(username);
         await Elements.PasswordInput.FillAsync(password);

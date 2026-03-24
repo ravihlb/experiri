@@ -1,4 +1,3 @@
-using System.Text.RegularExpressions;
 using Microsoft.Playwright.Xunit;
 
 namespace PlaywrightTests;
@@ -26,7 +25,7 @@ public class LoginTests : PageTest
     await authPage.LoginAsync(username, password);
 
     // Asssert
-    await Expect(Page).ToHaveURLAsync(new Regex(".*/inventory"));
+    await Expect(Page).ToHaveURLAsync(InventoryPage.Url);
   }
 
   [Fact]
@@ -39,7 +38,7 @@ public class LoginTests : PageTest
     await authPage.LoginAsync(username, wrongPassword);
 
     await Expect(authPage.Elements.ErrorMessage).ToBeVisibleAsync();
-    await Expect(Page).Not.ToHaveURLAsync(new Regex(".*/inventory"));
+    await Expect(Page).Not.ToHaveURLAsync(InventoryPage.Url);
   }
 
   [Fact]
@@ -51,7 +50,7 @@ public class LoginTests : PageTest
     await authPage.LoginAsync(username, password);
 
     await Expect(authPage.Elements.ErrorMessage).ToBeVisibleAsync();
-    await Expect(Page).Not.ToHaveURLAsync(new Regex(".*/inventory"));
+    await Expect(Page).Not.ToHaveURLAsync(InventoryPage.Url);
   }
 
   [Fact]
@@ -63,6 +62,6 @@ public class LoginTests : PageTest
     await authPage.LoginAsync(UserCredentials.Username, UserCredentials.Password);
 
     await inventoryPage.Logout();
-    await Expect(Page).Not.ToHaveURLAsync(inventoryPage.Url);
+    await Expect(Page).Not.ToHaveURLAsync(InventoryPage.Url);
   }
 }
